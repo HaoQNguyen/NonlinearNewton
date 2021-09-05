@@ -25,7 +25,7 @@ function jacobian(x, dx, k)
 
     for i = 1:length(x)
 
-        delx[i] .-= dx;
+        delx[i] -= dx;
         y = f(x,k);
         dely = f(delx,k);
         J[:,i] = (y - dely) / dx;
