@@ -20,7 +20,7 @@ end
 
 function jacobian(x, dx, k)
 
-    J = ones(length(x), length(x));
+    J = zeros(length(x), length(x));
     delx = copy(x);
 
     for i = 1:length(x)
@@ -42,7 +42,7 @@ function newton_raphson(x, dx, k, imax, tol)
     res = zeros(imax);
     con = zeros(imax);
     i = 1;
-    res[i] = norm(f(x,k), -Inf);
+    res[i] = norm(f(x,k), Inf);
     J = jacobian(x, dx, k);
 
     i = 2;
@@ -52,8 +52,8 @@ function newton_raphson(x, dx, k, imax, tol)
         J = jacobian(x, dx, k);
         x = xold - inv(J) * f(xold, k);
 
-        res[i] = norm(f(x,k), -Inf);
-        con[i] = norm(f(x,k), -Inf) - norm(f(xold,k), -Inf);
+        res[i] = abs(norm(f(x,k), Inf));
+        con[i] = abs(norm(f(x,k), Inf) - norm(f(xold,k), Inf));
 
         if res[i] < tol && con[i] < tol
             break;
