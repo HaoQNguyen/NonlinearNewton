@@ -18,9 +18,8 @@ function f(x, k)
 
 end
 
-function jacobian(x, dx, k)
+function jacobian!(x, dx, k, J)
 
-    J = zeros(length(x), length(x));
     delx = copy(x);
 
     for i = 1:length(x)
@@ -32,8 +31,6 @@ function jacobian(x, dx, k)
         delx[i] = x[i];
 
     end
-
-    return J;
     
 end
 
@@ -43,13 +40,14 @@ function newton_raphson(x, dx, k, imax, tol)
     con = zeros(imax);
     i = 1;
     res[i] = norm(f(x,k), Inf);
-    J = jacobian(x, dx, k);
+    J = zeros(length(x), length(x));
+    jacobian!(x, dx, k, J);
 
     i = 2;
     while i < imax
 
         xold = copy(x);
-        J = jacobian(x, dx, k);
+        jacobian!(x, dx, k, J);
         x = xold - inv(J) * f(xold, k);
 
         res[i] = abs(norm(f(x,k), Inf));
