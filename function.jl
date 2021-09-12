@@ -93,7 +93,7 @@ function jacobian_autodiff!(x, ki, k, L, W, LT)
     j3 = transpose(j3);
     j4 = transpose(j4);
 
-    # concatenate arrays horizontally
+    # concatenate arrays vertically
     return [j1; j2; j3; j4];
 
 end
